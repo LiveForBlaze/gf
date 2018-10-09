@@ -1,4 +1,9 @@
 {
+  "lng": "Русский",
+  "interface": {
+    "Profile": "Профиль",
+    "Logout": "Выйти"
+  },
   "login": {
     "Email": "Эл. почта",
     "Login": "Войти",

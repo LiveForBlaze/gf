@@ -1,33 +1,51 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import { translate } from 'react-i18next';
-import styled from 'styled-components';
-
+import { Route } from 'react-router-dom';
 import './css/Interface';
 import { LoginForm } from './login/LoginForm';
 import {SignupForm } from './login/SignupForm';
+import { UserMenu } from './UserMenu';
+import { Home } from './Home';
+import { UserPage } from './User';
 
-
-const StyledLogin = styled.div`
-  width: 200px;
-  background: rgba(0,0,0,0.04);
-  border: 2px solid rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 10px;
-  margin: 10px;
-  margin-bottom: 0;
-`;
+const User = Meteor.user();
 
 class InterfaceUI extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      user: '',
+      ready: false,
+    }
+  }
+  componentDidMount(){
+    const userId = Meteor.userId();
+    console.log(userId);
+    Meteor.call('getUserData', { userId }, (err, res) => {
+      if (err) {
+        this.setState({
+          ready: true
+        })
+      } else {
+        this.setState({
+          user: res,
+          ready: true
+        })
+      }
+    });
+  }
   render(){
+    console.log(Meteor.user());
     const { t } = this.props;
+    const { ready, user } = this.state;
     return(
       <div>
-        <StyledLogin>
-          <LoginForm />
-        </StyledLogin>
-        <StyledLogin>
-          <SignupForm />
-        </StyledLogin>
+        { ready && <UserMenu user={user}/>}
+        <Route exact path="/" component={Home} />
+        <Route exact path="/users/:id" component={UserPage} />
+        <Route exact path="/login" component={LoginForm} />
+        <Route exact path="/signup" component={SignupForm} />
       </div>
     )
   }

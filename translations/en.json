@@ -1,4 +1,9 @@
 {
+  "lng": "English",
+  "interface": {
+    "Profile": "Profile",
+    "Logout": "Logout"
+  },
   "login": {
     "Email": "Email",
     "Login": "Login",

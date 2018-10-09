@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Form } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 
+import { StyledLogin } from '../components/styled/forms';
+
 class SignupUI extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +34,8 @@ class SignupUI extends React.Component {
       if (err) {
         console.log(err)
       } else {
-        console.log(`User ${email} created`);
+        this.props.history.goBack();
+        window.location.reload();
       }
     });
   }
@@ -41,6 +44,7 @@ class SignupUI extends React.Component {
     console.log(Meteor.users.find({}).fetch());
     const { t } = this.props;
     return(
+      <StyledLogin>
       <Form onSubmit={this.handleSubmit}>
         <Form.Field>
           <input name="email" placeholder={t('login.Email')} onChange={this.handleChange} />
@@ -50,6 +54,7 @@ class SignupUI extends React.Component {
         </Form.Field>
         <Button type='submit'>{t('login.Signup')}</Button>
       </Form>
+      </StyledLogin>
     )
   }
 }

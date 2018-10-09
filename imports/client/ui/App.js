@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import i18next from 'i18next';
+import { BrowserRouter } from 'react-router-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import { I18nextProvider } from 'react-i18next';
 import LngDetector from 'i18next-browser-languagedetector';
@@ -34,12 +35,16 @@ i18next
     },
   });
 
-
 class App extends Component {
+  shouldComponentUpdate(nextProps) {
+    return !this.props.currentUser || !nextProps.currentUser;
+  }
   render() {
     return (
       <I18nextProvider i18n={i18next}>
-        <Interface />
+        <BrowserRouter>
+          <Interface />
+        </BrowserRouter>
       </I18nextProvider>
     );
   }
